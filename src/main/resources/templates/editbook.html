@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Book</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Edit Book</h2>
+        <form id="bookForm" th:object="${book}" th:action="@{/admin/save/{id}(id=${book.id})}" method="POST" onsubmit="return confirm('Are you sure?')" enctype="multipart/form-data">
+            <div class="row">
+                <!-- Right column -->
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="title" class="col-sm-2 col-form-label">Title:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="title" name="title" th:value="${book.title}" required disabled>
+                        </div>
+                        <label for="author" class="col-sm-2 col-form-label">Author:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="author" name="author" th:value="${book.author}" required disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Description:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="description" name="description" rows="3" th:field="${book.description}" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="publishDate" class="col-sm-2 col-form-label">Publish Date:</label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="publishdate" name="publishdate" th:value="${book.publishdate}" required disabled>
+                        </div>
+                        <label for="numPages" class="col-sm-2 col-form-label">Number of Pages:</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="numberofpage" name="numberofpage" th:value="${book.numberofpage}" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-2 col-form-label">Category:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="category" name="category" th:value="${book.category}" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left column -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="cover">Upload Image:</label>
+                        <input type="file" class="form-control-file" id="cover" name="cover" disabled>
+                    </div>
+                    <img src="" id="imagePreview" class="image-preview" style="display: none;" alt="Image Preview">
+                    <img th:src="@{'/static/uploads/' + ${book.cover}}" width="100px" height="150px">
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <button id="editBtn" class="btn btn-primary">Edit</button>
+                <button type="submit" id="saveBtn" class="btn btn-success" style="display: none;">Save</button>
+            </div>
+        </form>
+
+        <script>
+            var isEditMode = false;
+
+            // Edit button click event
+            document.getElementById("editBtn").addEventListener("click", function (event) {
+                event.preventDefault();
+
+                var editBtn = document.getElementById("editBtn");
+                var saveBtn = document.getElementById("saveBtn");
+
+                if (!isEditMode) {
+                    // Enable all fields
+                    enableFields();
+                    editBtn.innerHTML = "Cancel";
+                    saveBtn.style.display = "inline-block";
+                } else {
+                    // Disable all fields
+                    disableFields();
+                    editBtn.innerHTML = "Edit";
+                    saveBtn.style.display = "none";
+                }
+
+                isEditMode = !isEditMode;
+            });
+
+            // Enable all fields
+            function enableFields() {
+                document.getElementById("title").disabled = false;
+                document.getElementById("author").disabled = false;
+                document.getElementById("description").disabled = false;
+                document.getElementById("publishdate").disabled = false;
+                document.getElementById("numberofpage").disabled = false;
+                document.getElementById("category").disabled = false;
+                document.getElementById("cover").disabled = false;
+            }
+
+            // Disable all fields
+            function disableFields() {
+                document.getElementById("title").disabled = true;
+                document.getElementById("author").disabled = true;
+                document.getElementById("description").disabled = true;
+                document.getElementById("publishdate").disabled = true;
+                document.getElementById("numberofpage").disabled = true;
+                document.getElementById("category").disabled = true;
+                document.getElementById("cover").disabled = true;
+            }
+
+            // Image preview
+            document.getElementById("cover").addEventListener("change", function () {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    document.getElementById("imagePreview").src = e.target.result;
+                    document.getElementById("imagePreview").style.display = "block";
+                }
+
+                reader.readAsDataURL(this.files[0]);
+            });
+        </script>
+    </div>
+</body>
+</html>

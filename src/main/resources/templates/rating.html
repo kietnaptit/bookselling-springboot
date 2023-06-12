@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookstore Ratings</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .rating input {
+            display: none;
+        }
+        
+        .rating label {
+            cursor: pointer;
+        }
+        
+        .rating label:before {
+            content: "\2606"; /* Empty star */
+        }
+        
+        .rating input:checked ~ label:before {
+            content: "\2605"; /* Filled star */
+        }
+        
+        #comment {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rate the Book</h1>
+        <form action="#" th:action="@{/rate}" th:object="${rating}" method="post">
+            <input type="hidden" th:field="*{user}" th:value="${user}"/>
+            <input type="hidden" th:field="*{book}" th:value="${book}"/>
+            <div class="rating">
+                <input type="radio" id="star5" name="stars" th:value="5"/>
+                <label for="star5"></label>
+                <input type="radio" id="star4" name="stars" th:value="4"/>
+                <label for="star4"></label>
+                <input type="radio" id="star3" name="stars" th:value="3"/>
+                <label for="star3"></label>
+                <input type="radio" id="star2" name="stars" th:value="2"/>
+                <label for="star2"></label>
+                <input type="radio" id="star1" name="stars" th:value="1"/>
+                <label for="star1"></label>
+            </div>
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" id="comment" name="comment" th:field="*{comment}"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Error</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f2f2f2;
+    }
+    .error-template {
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 150px;
+      line-height: 150px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-template">
+    <h1><i class="fa fa-frown-o"></i></h1>
+    <p>Oops! The username that you have entered is exist in system. Please login or choose another username</p>
+    <a href="/login" class="btn btn-primary">Go Back Home</a>
+    <a href="/login" class="btn btn-danger">Login</a>
+  </div>
+</body>
+</html>

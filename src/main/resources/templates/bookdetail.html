@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+        }
+        .rating input {
+            display: none;
+        }
+        
+        .rating label {
+            cursor: pointer;
+        }
+        
+        .rating label:before {
+            content: "\2606"; /* Empty star */
+        }
+        
+        .rating input:checked ~ label:before {
+            content: "\2605"; /* Filled star */
+        }
+        
+        #comment {
+            width: 100%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Book Detail & New Order</h2>
+        <form id="bookForm" th:object="${book}" th:action="@{/order/new}" method="POST">
+            <div class="row">
+                <!-- Right column -->
+                <div class="col-md-6">
+                    <div class="form-group row">
+						<label for="title" class="col-sm-2 col-form-label">ID:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="id" name="id" th:value="${book.id}" readonly>
+                        </div>
+                        <label for="title" class="col-sm-2 col-form-label">Title:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="title" name="title" th:value="${book.title}" readonly>
+                        </div>
+                        <label for="author" class="col-sm-2 col-form-label">Author:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="author" name="author" th:value="${book.author}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="col-sm-2 col-form-label">Description:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="description" name="description" rows="3" th:field="${book.description}" readonly></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="publishDate" class="col-sm-2 col-form-label">Publish Date:</label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="publishdate" name="publishdate" th:value="${book.publishdate}" readonly>
+                        </div>
+                        <label for="numPages" class="col-sm-2 col-form-label">Number of Pages:</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="numberofpage" name="numberofpage" th:value="${book.numberofpage}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="category" class="col-sm-2 col-form-label">Category:</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="category" name="category" th:value="${book.category}" readonly>
+                        </div>
+                    </div>
+					<div class="form-group row">
+                        <label for="quantity" class="col-sm-2 col-form-label">Order Quantity:</label>
+                        <div class="col-sm-4">
+                            <input type="number" class="form-control" id="quantity" name="quantity">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left column -->
+                <div class="col-md-6">
+					<label for="cover" class="col-sm-2 col-form-label">Book Cover</label>
+                    <img th:src="@{'/static/uploads/' + ${book.cover}}" width="100px" height="150px">
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <button type="submit" id="orderBtn" class="btn btn-success">Order</button>
+                <a href="/user" class="btn btn-info">Return</a>
+            </div>
+        </form>
+        <h1>Rate the book</h1>
+        <form th:action="@{/rate}" method="post">
+            <input type="hidden" id="userid" name="userid" th:value="${user.id}"/>
+            <input type="hidden" id="username" name="username" th:value="${user.name}"/>
+            <input type="hidden" id="bookid" name = "bookid" th:value="${book.id}"/>
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" id="comment" name="comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Rate</button>
+        </form>
+        <h1>Rating for this Book</h1>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="rating: ${ratings}">
+                    <td th:text="${rating.username}"></td>
+                    <td th:text="${rating.rating}"></td>
+                    <td th:text="${rating.comment}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
