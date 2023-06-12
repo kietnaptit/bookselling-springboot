@@ -19,3 +19,7 @@ Website has Register/Login feature. The user information will be stored: Name, E
 * All of required field must not be empty, the database can not contain two books with same title AND author, and two user can not have the same username
 * The error must be display alert for user
 * Before execute the important task like Delete or Create. An alert popup must be display for asking confirmation (Confirm or Cancel)
+
+## SQL Import
+* The .sql SQL dump is in folder db, you might import its to your DBMS, MySQL and MySQL Workbench is highly comment.
+* Do not forget to change SQL credentials in each DAO classes
